@@ -13,8 +13,8 @@ def login(request):
         pwd = request.POST.get('pwd')
         if uname and pwd:
             try:
-                salesman.objects.get(user_name = uname, pass_word = pwd)
-                return HttpResponse('success', RequestContext(request))
+                tmp = salesman.objects.get(user_name = uname, pass_word = pwd)
+                return render_to_response('checkin.html', {'user_name':tmp.user_name}, RequestContext(request))
             except salesman.DoesNotExist:
                 error = "please input the correct username and the password."
         else:

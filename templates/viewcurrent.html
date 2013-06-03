@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+            
+              <li class="nav-header">check in</li>
+              
+              <li><a href="/checkin/">Check In</a></li>
+              <li><a href="#">More</a></li>
+              
+              <li class="nav-header">view</li>
+              
+              <li class="active"><a href="#">View Current Month</a></li>
+              <li><a href="/viewhistory/">View History</a></li>
+              
+              <!-- 
+              <li class="nav-header">Sidebar</li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+               -->
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        
+        
+        <div class="span9">
+        
+        content
+        </div><!--/span-->
+        
+        
+      </div><!--/row-->
+{% endblock %}

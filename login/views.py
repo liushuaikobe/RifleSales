@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 from login.models import Salesman
 
@@ -13,8 +13,10 @@ def login(request):
         pwd = request.POST.get('pwd')
         if uname and pwd:
             try:
-                tmp = Salesman.objects.get(user_name = uname, pass_word = pwd)
-                return render_to_response('checkin.html', {'user_name':tmp.user_name}, RequestContext(request))
+                tmp = Salesman.objects.get(user_name=uname, pass_word=pwd)
+                request.session['user_name'] = tmp.user_name
+                request.session['real_name'] = tmp.real_name
+                return HttpResponseRedirect('/checkin/')
             except Salesman.DoesNotExist:
                 error = "please input the correct username and the password."
         else:

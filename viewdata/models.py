@@ -9,4 +9,4 @@ class Commission(models.Model):
     havefinished = models.BooleanField()
     
     def __unicode__(self):
-        return self.whose, self.month, self.havefinished
+        return str((self.whose, self.month, self.havefinished))

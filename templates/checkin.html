@@ -28,17 +28,29 @@
         <div class="span9">
           <div class="hero-unit">
           	{% if year and month and day %}
-          	<h5>{{ year }}/{{ month }}/{{ day }}</h5>
+          	<h4>{{ year }}-{{ month }}-{{ day }}</h4>
           	{% endif %}
           	<form class="form-horizontal" action="" method="post">
+          		{% if errorMsg %}
+          			<div class="alert alert-error">
+          				<button type="button" class="close" data-dismiss="alert">&times;</button>
+          				{{ errorMsg }}
+          			</div>
+          		{% endif %}
+          		{% if success %}
+          			<div class="alert alert-success">
+          				<button type="button" class="close" data-dismiss="alert">&times;</button>
+          				{{ success }}
+          			</div>
+          		{% endif %}
           		{% csrf_token %}
           		<!-- merchandise -->
 				<div class="control-group">
 					<label class="control-label" for="merchandise">Merchandise</label>
 					<div class="controls">
 						<select id="merchandise" name="merchandise">
-							{% for merchandise in merchandise_list %}
-								<option {% ifequal forloop.counter 1 %} selected="selected" {% endifequal %} >{{ merchandise }}</option>
+							{% for merchandise in allMerchandise %}
+								<option {% ifequal forloop.counter 1 %} selected="selected" {% endifequal %} >{{ merchandise.name}}</option>
 							{% endfor %}
 						</select>
 					</div>
@@ -69,7 +81,7 @@
           	<!-- Commission -->
           	<form class="form-horizontal" action="" method="post">
           		{% csrf_token %}
-          		<div><h5>Danger Zone:</h5></div>
+          		<div><h4>Danger Zone:</h4></div>
           		<input type='hidden' name='commission' value='true' />
           		<div class="control-group">
 						<label class="control-label" for="commission">&nbsp;</label>
@@ -82,19 +94,17 @@
           </div>
           <div class="row-fluid">
             <div class="span4">
-              <h2>locks</h2>
+              <h2>locks <span class="label label-success" size=19>{{ lock }}</span></h2>
+              <p></p>
               <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="#">View details &raquo;</a></p>
             </div><!--/span-->
             <div class="span4">
-              <h2>stocks</h2>
+              <h2>stocks <span class="label label-success">{{ stock }}</span></h2>
               <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="#">View details &raquo;</a></p>
             </div><!--/span-->
             <div class="span4">
-              <h2>barrels</h2>
+              <h2>barrels <span class="label label-success">{{ barrel }}</span></h2>
               <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="#">View details &raquo;</a></p>
             </div><!--/span-->
           </div><!--/row-->
         </div><!--/span-->

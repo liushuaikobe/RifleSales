@@ -20,5 +20,5 @@ class Sales(models.Model):
     count = models.IntegerField()
     
     def __unicode__(self):
-        return self.whosales, self.saleswhat, self.count
+        return str((self.whosales, self.saleswhat, self.count))
     

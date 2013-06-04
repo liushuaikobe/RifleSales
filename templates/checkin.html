@@ -27,9 +27,58 @@
         </div><!--/span-->
         <div class="span9">
           <div class="hero-unit">
-            <h1>Hello, world!</h1>
-            <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-            <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+          	{% if year and month and day %}
+          	<h5>{{ year }}/{{ month }}/{{ day }}</h5>
+          	{% endif %}
+          	<form class="form-horizontal" action="" method="post">
+          		{% csrf_token %}
+          		<!-- merchandise -->
+				<div class="control-group">
+					<label class="control-label" for="merchandise">Merchandise</label>
+					<div class="controls">
+						<select id="merchandise" name="merchandise">
+							{% for merchandise in merchandise_list %}
+								<option {% ifequal forloop.counter 1 %} selected="selected" {% endifequal %} >{{ merchandise }}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+          		<!-- quantity -->
+          		<div class="control-group">
+					<label class="control-label" for="quantity">Quantity</label>
+					<div class="controls">
+						<input type="text" id="quantity" name="quantity" value="1">
+					</div>
+				</div>
+				<!-- location -->
+				<div class="control-group">
+					<label class="control-label" for="location">Location</label>
+					<div class="controls">
+						<input type="text" id="location" name="location">
+					</div>
+				</div>
+				<!-- submit -->
+				<div class="control-group">
+					<div class="controls">
+						<button type="reset" class="btn">Reset</button>
+						<button type="submit" class="btn btn-success" id="post">Post &raquo;</button>
+					</div>
+				</div>
+          	</form>
+          	
+          	<!-- Commission -->
+          	<form class="form-horizontal" action="" method="post">
+          		{% csrf_token %}
+          		<div><h5>Danger Zone:</h5></div>
+          		<input type='hidden' name='commission' value='true' />
+          		<div class="control-group">
+						<label class="control-label" for="commission">&nbsp;</label>
+						<div class="controls">
+          					<button type="submit" class="btn btn-warning" id="commission">Commission &raquo;</button>
+						</div>
+				</div>
+          	</form>
+          	
           </div>
           <div class="row-fluid">
             <div class="span4">

@@ -29,9 +29,53 @@
         
         <div class="span9">
         
-        content
+	        {% if year and month %}
+	        	<h3>{{ year }} - {{ month }}</h3>
+	        {% endif %}
+	        
+	        <table class="table table-bordered" id="crtMonthSalesTable">
+	        	<tr><th>Location</th><th>Locks</th><th>Barrels</th><th>Stocks</th></tr>
+	        	{% for crtMonthSales in crtMonthSalesList %}
+	        		<tr>
+	        			<td>{{ crtMonthSales.location }}</td>
+	        			<td>{{ crtMonthSales.locks }}</td>
+	        			<td>{{ crtMonthSales.stocks }}</td>
+	        			<td>{{ crtMonthSales.barrels }}</td>
+	        		</tr>
+	        	{% endfor %}
+	        </table>
+	        
+	        <div id="crtMonthSales"></div>
+        
         </div><!--/span-->
         
         
       </div><!--/row-->
+      
+      <script type="text/javascript">
+      	$(function () {
+	    $('#crtMonthSales').highcharts({
+	        data: {
+	            table: document.getElementById('crtMonthSalesTable')
+	        },
+	        chart: {
+	            type: 'column'
+	        },
+	        title: {
+	            text: 'Data extracted from a HTML table in the page'
+	        },
+	        yAxis: {
+	            allowDecimals: false,
+	            title: {
+	                text: 'Units'
+	            }
+	        },
+	        tooltip: {
+	            formatter: function() {
+	                return 'liushuai';
+	            }
+	        }
+	    });
+	});
+      </script>
 {% endblock %}

@@ -27,13 +27,13 @@ def checkin(request):
             date = getCurrentDate()
             meta = {'user_name':crtSalesmanRealName, 'year':date[0], 'month':date[1], 'day':date[2], 'allMerchandise':allMerchandise}
             print getOnesBalance(crtSalesman, date)
-            meta = dict(meta, **getOnesBalance(crtSalesman, date))
             if request.method == 'POST':
                 errorMsg = handleCheckinData(request, crtSalesman, date)
                 if errorMsg:
                     meta['errorMsg'] = errorMsg
                 else:
                     meta['success'] = 'post successfully.'
+            meta = dict(meta, **getOnesBalance(crtSalesman, date))
         except Salesman.DoesNotExist:
             error = True
         except Exception, e:

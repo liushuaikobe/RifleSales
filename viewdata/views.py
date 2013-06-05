@@ -5,7 +5,8 @@ from django.db.models import Sum
 
 from login.models import Salesman
 from checkindata.models import Sales, Merchandise
-from checkindata.views import getCurrentDate
+from viewdata.models import Commission
+from checkindata.views import getCurrentDate, calcCommission
 
 import checkindata.views
 
@@ -17,15 +18,16 @@ def viewcurrent(request):
     if not crtSalesman:
         return HttpResponseRedirect('/')
     date = getCurrentDate()
-    
+    # calculate the commission first
+    calcCommission(crtSalesman, date, False)
+    # get the commission of current month until now
+    commissionVal = getCurrentMonthCommission(crtSalesman, date)
+    # create a sales list of current month
     lockSalesInCrtMonth = getCurrentMonthSales(crtSalesman, date, checkindata.views.LOCK_NAME)
     stockSalesInCrtMonth = getCurrentMonthSales(crtSalesman, date, checkindata.views.STOCK_NAME)
     barrelSalesInCrtMonth = getCurrentMonthSales(crtSalesman, date, checkindata.views.BARREL_NAME)
-    
     locationsInCrtMonth = getCurrentMonthVisitedLocation(crtSalesman, date)
-    
     crtMonthSalesList = []
-    
     for location in locationsInCrtMonth:
         crtMonthSales = {}
         crtMonthSales['location'] = location
@@ -33,8 +35,10 @@ def viewcurrent(request):
         crtMonthSales['stocks'] = stockSalesInCrtMonth[location] if location in stockSalesInCrtMonth else 0
         crtMonthSales['barrels'] = barrelSalesInCrtMonth[location] if location in barrelSalesInCrtMonth else 0
         crtMonthSalesList.append(crtMonthSales)
-    
-    return render_to_response('viewcurrent.html', {'crtMonthSalesList':crtMonthSalesList}, RequestContext(request))
+    # meta list
+    meta = {'crtMonthSalesList':crtMonthSalesList, 'user_name' : crtSalesman.real_name, 'year' : date[0], 'month' : date[1], 'commissionVal' : commissionVal}
+    # return
+    return render_to_response('viewcurrent.html', meta, RequestContext(request))
 
 def viewhistory(request):
     return render_to_response('viewhistory.html', None, RequestContext(request))
@@ -66,4 +70,26 @@ def getCurrentMonthVisitedLocation(crtSalesman, date):
     for location in locationDict:
         locations.append(location['location'])
     return locations
+
+def getCurrentMonthCommission(crtSalesman, date):
+    '''get the commission of given salesman in given date'''
+    try:
+        commission = Commission.objects.get(whose = crtSalesman.id, year = date[0], month = date[1])
+        return commission.value
+    except Commission.DoesNotExist:
+        return 0
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
         

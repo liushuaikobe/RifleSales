@@ -30,11 +30,15 @@
         <div class="span9">
         
 	        {% if year and month %}
-	        	<h3>{{ year }} - {{ month }}</h3>
+	        	<h2>{{ year }} - {{ month }}</h2>
+	        {% endif %}
+	        
+	        {% if commissionVal %}
+	        	<h3>{{ user_name }}, your commission of current month is ${{ commissionVal }} until now.</h3>
 	        {% endif %}
 	        
 	        <table class="table table-bordered" id="crtMonthSalesTable">
-	        	<tr><th>Location</th><th>Locks</th><th>Barrels</th><th>Stocks</th></tr>
+	        	<tr><th>Location</th><th>Locks</th><th>Stocks</th><th>Barrels</th></tr>
 	        	{% for crtMonthSales in crtMonthSalesList %}
 	        		<tr>
 	        			<td>{{ crtMonthSales.location }}</td>
@@ -62,17 +66,17 @@
 	            type: 'column'
 	        },
 	        title: {
-	            text: 'Data extracted from a HTML table in the page'
+	            text: 'Current Month Sales'
 	        },
 	        yAxis: {
 	            allowDecimals: false,
 	            title: {
-	                text: 'Units'
+	                text: 'Amount'
 	            }
 	        },
 	        tooltip: {
 	            formatter: function() {
-	                return 'liushuai';
+	                return '<b>'+ this.y + ' ' + this.series.name +'</b><br/>' +' '+ this.x.toLowerCase();
 	            }
 	        }
 	    });

@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Sum
 
 from login.models import Salesman
+from viewdata.models import Commission
 from checkindata.models import Merchandise, Sales
 
 import time
@@ -94,3 +95,38 @@ def getCurrentDate():
     '''get the current year, month, day'''
     tmp = time.localtime(time.time())
     return tmp.tm_year, tmp.tm_mon, tmp.tm_mday
+
+def calcCommission(crtSalesman, date, isFinal):
+    '''calculate the commission for a salesman'''
+    allSales = Sales.objects.filter(whosales = crtSalesman.id, year = date[0], month = date[1], day = date[2])
+    moneySum = 0.0
+    commissionVal = 0.0
+    level_1 = 1000.0
+    level_2 = 1800.0
+    for sale in allSales:
+        moneySum += sale.saleswhat.price * sale.count
+    if moneySum <= level_1:
+        commissionVal += moneySum * 0.1
+    elif moneySum > level_2:
+        commissionVal += level_1 * 0.1 + level_2 * 0.15 + (moneySum - level_1 - level_2) * 0.2
+    else:
+        commissionVal += level_1 * 0.1 + (moneySum - level_1) * 0.15
+    try:
+        commission = Commission.objects.get(whose = crtSalesman.id, year = date[0], month = date[1])
+    except Commission.DoesNotExist:
+        commission = Commission()
+    commission.whose = crtSalesman
+    commission.year = date[0]
+    commission.month = date[1]
+    commission.value = commissionVal
+    commission.havefinished = isFinal
+    commission.save()
+    
+        
+        
+        
+        
+        
+        
+        
+        

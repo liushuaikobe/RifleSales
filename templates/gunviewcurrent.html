@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+            
+              <li class="nav-header">Operation</li>
+              
+              <li><a href="#">Add Saleman</a></li>
+              <li><a href="#">More</a></li>
+              
+              <li class="nav-header">view data</li>
+              
+              <li class="active"><a href="#">View Current Month</a></li>
+              <li><a href="/gunviewhistory/">View History</a></li>
+              
+              <!-- 
+              <li class="nav-header">Sidebar</li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+               -->
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        
+        
+        <div class="span9">
+        
+        content
+        	<div id="crtMonthSales"></div>
+        </div><!--/span-->
+        
+        
+      </div><!--/row-->
+      
+      <script type="text/javascript">
+      	$(function () {
+      		$('#crtMonthSales').highcharts({
+    
+            chart: {
+                type: 'column'
+            },
+    
+            title: {
+                text: 'Sales of Each Salesman, Group By Merchandise'
+            },
+    
+            xAxis: {
+                categories: ['{{ categories|join:"','" }}']
+            },
+    
+            yAxis: {
+                allowDecimals: false,
+                min: 0,
+                title: {
+                    text: 'Number of Merchandise'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+            },
+    		plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: false,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                    }
+                }
+            },
+            tooltip: {
+                formatter: function() {
+                    return '<b>'+ this.series.options.stack +'</b><br/>'+
+                        this.series.name +': '+ this.y +'<br/>'+
+                        'Total: '+ this.point.stackTotal;
+                }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal'
+                }
+            },
+            legend: {
+            	enabled: false
+            },
+            series: [
+            {% for data in dataList %}
+            {
+            	name: '{{ data.location }}',
+                data: [{{ data.countList.lockList|join:"," }}],
+                stack: 'lock'
+            }, {
+            	name: '{{ data.location }}',
+                data: [{{ data.countList.stockList|join:"," }}],
+                stack: 'stock'
+            }, {
+            	name: '{{ data.location }}',
+                data: [{{ data.countList.barrelList|join:"," }}],
+                stack: 'barrel'
+            } 
+            {% ifnotequal forloop.counter dataList|length %}
+            ,
+            {% endifnotequal %}
+            {% endfor %}
+            ]
+        });
+    });
+      	
+      </script>
+{% endblock %}

@@ -3,7 +3,7 @@ from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Sum
 
-from login.models import Salesman
+from login.models import Salesman, Administrator
 from checkindata.models import Sales, Merchandise
 from viewdata.models import Commission
 from checkindata.views import getCurrentDate, calcCommission
@@ -36,13 +36,21 @@ def viewcurrent(request):
         crtMonthSales['barrels'] = barrelSalesInCrtMonth[location] if location in barrelSalesInCrtMonth else 0
         crtMonthSalesList.append(crtMonthSales)
     # meta list
-    meta = {'crtMonthSalesList':crtMonthSalesList, 'user_name' : crtSalesman.real_name, 'year' : date[0], 'month' : date[1], 'commissionVal' : commissionVal}
+    meta = {'crtMonthSalesList':crtMonthSalesList, 'user_name' : crtSalesman.real_name, 'year' : date[0], 'month' : date[1], 'day' : date[2], 'commissionVal' : commissionVal}
     # return
     return render_to_response('viewcurrent.html', meta, RequestContext(request))
 
 def viewhistory(request):
     return render_to_response('viewhistory.html', None, RequestContext(request))
 
+def gunviewcurrent(request):
+    date = getCurrentDate()
+    categories = [salesman.real_name for salesman in Salesman.objects.all()]
+    return render_to_response('gunviewcurrent.html', {'dataList':getGunViewCurrentFigureData(date), 'categories':categories}, RequestContext(request))
+
+def gunviewhistory(request):
+    return render_to_response('gunviewhistory.html', None, RequestContext(request))
+    
 def getSalesManFromSession(request):
     '''get a salesman entity from the session of current request.'''
     crtSalesmanUserName = request.session['user_name'] if 'user_name' in request.session else None
@@ -51,6 +59,17 @@ def getSalesManFromSession(request):
         try:
             return Salesman.objects.get(user_name = crtSalesmanUserName, real_name = crtSalesmanRealName)
         except Salesman.DoesNotExist:
+            return None
+    return None
+
+def getAdministratorFromSession(request):
+    '''get a salesman entity from the session of current request.'''
+    crtAdminUserName = request.session['user_name'] if 'user_name' in request.session else None
+    crtAdminRealName = request.session['real_name'] if 'real_name' in request.session else None
+    if crtAdminUserName and crtAdminRealName:
+        try:
+            return Administrator.objects.get(user_name = crtSalesmanUserName, real_name = crtSalesmanRealName)
+        except Administrator.DoesNotExist:
             return None
     return None
 
@@ -79,8 +98,39 @@ def getCurrentMonthCommission(crtSalesman, date):
     except Commission.DoesNotExist:
         return 0
     
-    
-    
+def getGunViewCurrentFigureData(date):
+    data = []
+    locationList = []
+    salesmanList = Salesman.objects.all()
+    for location in Sales.objects.values('location').distinct():
+        locationList.append(location['location'])
+    for location in locationList:
+        dataItem = {}
+        dataItem['location'] = location
+        
+        countList = {}
+        
+        lockList = []
+        stockList = []
+        barrelList = []
+        
+        for salesman in salesmanList:
+            lockSalesInCrtMonth = getCurrentMonthSales(salesman, date, checkindata.views.LOCK_NAME)
+            stockSalesInCrtMonth = getCurrentMonthSales(salesman, date, checkindata.views.STOCK_NAME)
+            barrelSalesInCrtMonth = getCurrentMonthSales(salesman, date, checkindata.views.BARREL_NAME)
+            
+            lockList.append(lockSalesInCrtMonth[location] if location in lockSalesInCrtMonth else 0)
+            stockList.append(stockSalesInCrtMonth[location] if location in stockSalesInCrtMonth else 0)
+            barrelList.append(barrelSalesInCrtMonth[location] if location in barrelSalesInCrtMonth else 0)
+            
+        countList['lockList'] = lockList
+        countList['stockList'] = stockList
+        countList['barrelList'] = barrelList
+        
+        dataItem['countList'] = countList
+        data.append(dataItem)
+    print data
+    return data
     
     
     

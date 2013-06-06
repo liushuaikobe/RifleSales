@@ -89,6 +89,9 @@ def getOnesBalance(salesman, date):
     haveSoldLocks = Sales.objects.filter(whosales = salesman.id, saleswhat = locksId, year = date[0], month = date[1]).aggregate(Sum('count'))['count__sum']
     haveSoldStocks = Sales.objects.filter(whosales = salesman.id, saleswhat = stockId, year = date[0], month = date[1]).aggregate(Sum('count'))['count__sum']
     haveSoldBarrels = Sales.objects.filter(whosales = salesman.id, saleswhat = barrelId, year = date[0], month = date[1]).aggregate(Sum('count'))['count__sum']
+    haveSoldLocks = haveSoldLocks if haveSoldLocks else 0
+    haveSoldStocks = haveSoldStocks if haveSoldStocks else 0
+    haveSoldBarrels = haveSoldBarrels if haveSoldBarrels else 0
     return {LOCK_NAME : MAX_LOCKS - haveSoldLocks, STOCK_NAME : MAX_STOCKS - haveSoldStocks, BARREL_NAME : MAX_BARRELS - haveSoldBarrels}
     
 def getCurrentDate():
@@ -98,7 +101,7 @@ def getCurrentDate():
 
 def calcCommission(crtSalesman, date, isFinal):
     '''calculate the commission for a salesman'''
-    allSales = Sales.objects.filter(whosales = crtSalesman.id, year = date[0], month = date[1], day = date[2])
+    allSales = Sales.objects.filter(whosales = crtSalesman.id, year = date[0], month = date[1])
     moneySum = 0.0
     commissionVal = 0.0
     level_1 = 1000.0

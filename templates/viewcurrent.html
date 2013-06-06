@@ -30,12 +30,10 @@
         <div class="span9">
         
 	        {% if year and month %}
-	        	<h2>{{ year }} - {{ month }}</h2>
+	        	<h2>{{ year }} - {{ month }} - {{ day }}</h2>
 	        {% endif %}
 	        
-	        {% if commissionVal %}
-	        	<h3>{{ user_name }}, your commission of current month is ${{ commissionVal }} until now.</h3>
-	        {% endif %}
+	        <h3>{{ user_name }}, your commission in current month is ${{ commissionVal }} until now.</h3>
 	        
 	        <table class="table table-bordered" id="crtMonthSalesTable">
 	        	<tr><th>Location</th><th>Locks</th><th>Stocks</th><th>Barrels</th></tr>

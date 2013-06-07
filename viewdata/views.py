@@ -13,7 +13,6 @@ import checkindata.views
 # the data template need can get from session
 
 def viewcurrent(request):
-    global LOCK_NAME, STOCK_NAME, BARREL_NAME
     crtSalesman = getSalesManFromSession(request)
     if not crtSalesman:
         return HttpResponseRedirect('/')
@@ -44,16 +43,30 @@ def viewhistory(request):
     return render_to_response('viewhistory.html', None, RequestContext(request))
 
 def gunviewcurrent(request):
+    crtAdmin = getAdministratorFromSession(request)
+    if not crtAdmin:
+        return HttpResponseRedirect('/')
     date = getCurrentDate()
     categories = [salesman.real_name for salesman in Salesman.objects.all()]
-    meta = {'dataList':getGunViewCurrentFigureData(date), 'categories':categories, \
+    meta = {'dataList':getGunViewCurrentFigureData(date), \
+            'categories' : categories, \
+            'user_name' : crtAdmin.real_name, \
             'locks' : getGunViewCurrentMerchandiseCount(date, checkindata.views.LOCK_NAME), \
             'stocks' : getGunViewCurrentMerchandiseCount(date, checkindata.views.STOCK_NAME), \
             'barrels' : getGunViewCurrentMerchandiseCount(date, checkindata.views.BARREL_NAME)}
     return render_to_response('gunviewcurrent.html', meta, RequestContext(request))
 
-def gunviewhistory(request):
-    return render_to_response('gunviewhistory.html', None, RequestContext(request))
+def gunviewhistory(request, year = 2013):
+    crtAdmin = getAdministratorFromSession(request)
+    if not crtAdmin:
+        return HttpResponseRedirect('/')
+    date = getCurrentDate()
+    meta = {'user_name' : crtAdmin.real_name, \
+            'yearList' : getAllYearsList(), \
+            'locks' : getSalesCountPerMonthOneYearList(date, checkindata.views.LOCK_NAME), \
+            'stocks' : getSalesCountPerMonthOneYearList(date, checkindata.views.STOCK_NAME), \
+            'barrels' : getSalesCountPerMonthOneYearList(date, checkindata.views.BARREL_NAME)}
+    return render_to_response('gunviewhistory.html', meta, RequestContext(request))
     
 def getSalesManFromSession(request):
     '''get a salesman entity from the session of current request.'''
@@ -72,7 +85,7 @@ def getAdministratorFromSession(request):
     crtAdminRealName = request.session['real_name'] if 'real_name' in request.session else None
     if crtAdminUserName and crtAdminRealName:
         try:
-            return Administrator.objects.get(user_name = crtSalesmanUserName, real_name = crtSalesmanRealName)
+            return Administrator.objects.get(user_name = crtAdminUserName, real_name = crtAdminRealName)
         except Administrator.DoesNotExist:
             return None
     return None
@@ -146,6 +159,26 @@ def getGunViewCurrentMerchandiseCount(date, merchandiseName):
     data['price'] = merchandise.price
     data['profit'] = count * merchandise.price
     return data    
+
+def getAllYearsList():
+    '''return all years via a list'''
+    data = []
+    yearDict = Sales.objects.all().values('year').distinct()
+    for year in yearDict:
+        data.append(year['year'])
+    return data 
+
+def getSalesCountPerMonthOneYearList(date, merchandiseName):
+    data = []
+    monthList = [i + 1 for i in range(12)]
+    merchandise = Merchandise.objects.get(name = merchandiseName)
+    for month in monthList:
+        sumCount = Sales.objects.filter(year = date[0], month = month, saleswhat = merchandise.id).aggregate(sum = Sum('count'))['sum']
+        data.append(sumCount if sumCount else 0)
+    return data
+    
+    
+        
     
     
     

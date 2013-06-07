@@ -46,7 +46,11 @@ def viewhistory(request):
 def gunviewcurrent(request):
     date = getCurrentDate()
     categories = [salesman.real_name for salesman in Salesman.objects.all()]
-    return render_to_response('gunviewcurrent.html', {'dataList':getGunViewCurrentFigureData(date), 'categories':categories}, RequestContext(request))
+    meta = {'dataList':getGunViewCurrentFigureData(date), 'categories':categories, \
+            'locks' : getGunViewCurrentMerchandiseCount(date, checkindata.views.LOCK_NAME), \
+            'stocks' : getGunViewCurrentMerchandiseCount(date, checkindata.views.STOCK_NAME), \
+            'barrels' : getGunViewCurrentMerchandiseCount(date, checkindata.views.BARREL_NAME)}
+    return render_to_response('gunviewcurrent.html', meta, RequestContext(request))
 
 def gunviewhistory(request):
     return render_to_response('gunviewhistory.html', None, RequestContext(request))
@@ -131,6 +135,17 @@ def getGunViewCurrentFigureData(date):
         data.append(dataItem)
     print data
     return data
+
+def getGunViewCurrentMerchandiseCount(date, merchandiseName):
+    '''{'count' : 87, 'price' : 50, 'profit' : 50 * 87}'''
+    data = {}
+    merchandise = Merchandise.objects.get(name = merchandiseName)
+    count = Sales.objects.filter(saleswhat = merchandise.id).aggregate(sum = Sum('count'))['sum']
+    count = count if count else 0
+    data['count'] = count
+    data['price'] = merchandise.price
+    data['profit'] = count * merchandise.price
+    return data    
     
     
     

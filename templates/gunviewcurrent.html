@@ -28,9 +28,32 @@
         
         
         <div class="span9">
-        
-        content
         	<div id="crtMonthSales"></div>
+        	<table class="table table-bordered">
+        		<tr><th>Merchandise</th><th>Count</th><th>Price ($)</th><th>Profit ($)</th></tr>
+        		<tr>
+        			<td>Locks</td>
+        			<td>{{ locks.count }}</td>
+        			<td>{{ locks.price }}</td>
+        			<td>{{ locks.profit }}</td>
+        		</tr>
+        		<tr>
+        			<td>Stocks</td>
+        			<td>{{ stocks.count }}</td>
+        			<td>{{ stocks.price }}</td>
+        			<td>{{ stocks.profit }}</td>
+        		</tr>
+        		<tr>
+        			<td>Barrles</td>
+        			<td>{{ barrels.count }}</td>
+        			<td>{{ barrels.price }}</td>
+        			<td>{{ barrels.profit }}</td>
+        		</tr>
+        	</table>
+        	<div class="row">
+        	<div class="span6" style="height:300px;" id="merchandiseCount"></div>
+        	<div class="span6" style="height:300px;" id="merchandiseProfit"></div>
+        	</div>
         </div><!--/span-->
         
         
@@ -111,6 +134,95 @@
             {% endfor %}
             ]
         });
+    });
+      	
+      	$(function () {
+        $('#merchandiseCount').highcharts({
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Total Count of Each Merchandise'
+            },
+            xAxis: {
+                categories: ['Locks', 'Stocks', 'Barrels'],
+                title: {
+                    text: null
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Count',
+                    align: 'high'
+                },
+                labels: {
+                    overflow: 'justify'
+                }
+            },
+            tooltip: {
+                valueSuffix: ''
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: 'count',
+                data: [{{ locks.count }}, {{ stocks.count }}, {{ barrels.count }}]
+            }]
+      	});
+    });
+      	
+      	$(function () {
+        $('#merchandiseProfit').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: true
+            },
+            title: {
+                text: 'Profit Each Merchandise Bring'
+            },
+            tooltip: {
+        	    formatter: function() {
+    				return '<b>'+ this.point.name +'</b>: '+ Highcharts.numberFormat(this.percentage, 2) +' %';
+				}
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        formatter: function() {
+                            return '<b>'+ this.point.name +'</b>: '+ Highcharts.numberFormat(this.percentage, 2) +' %';
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Count',
+                data: [
+                    ['Locks', {{ locks.profit }}],
+                    ['Stocks', {{ stocks.profit }}],
+                    ['Barrels', {{ barrels.profit }}],
+                ]
+            }]
+        });
+        Highcharts.numberFormat(this.percentage, 2)
     });
       	
       </script>

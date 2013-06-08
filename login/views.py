@@ -29,3 +29,15 @@ def login(request):
             error = "please input your user name and the password."
         return render_to_response('index.html', {'error':error}, RequestContext(request))
     return render_to_response('index.html', None, RequestContext(request))
+
+def loginAndroid(request):
+    if request.method == 'GET':
+        uname = request.GET.get('uname')
+        pwd = request.GET.get('pwd')
+        if uname and pwd:
+            try:
+                tmp = Salesman.objects.get(user_name=uname, pass_word=pwd)
+                return HttpResponse(uname)
+            except Salesman.DoesNotExist:
+                return HttpResponse('-1')
+    return HttpResponse('-1')

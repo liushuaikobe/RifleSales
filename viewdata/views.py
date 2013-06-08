@@ -17,8 +17,6 @@ def viewcurrent(request):
     if not crtSalesman:
         return HttpResponseRedirect('/')
     date = getCurrentDate()
-    # calculate the commission first
-    calcCommission(crtSalesman, date, haveFinished(crtSalesman, date))
     # get the commission of current month until now
     commissionVal = getCurrentMonthCommission(crtSalesman, date)
     # create a sales list of current month

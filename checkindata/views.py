@@ -71,6 +71,7 @@ def handleCheckinData(request, crtSalesman, date):
             sales.location = location
             sales.count = quantity
             sales.save()
+            calcCommission(crtSalesman, date, False)
         except ValueError:
             error = 'please input a positive integer.'
             return error
@@ -144,6 +145,38 @@ def commission(request):
 
 def haveFinished(crtSalesman, date):
     return Commission.objects.get(whose = crtSalesman.id, year = date[0], month = date[1]).havefinished
+
+def checkinDataAndroid(request):
+    uname = request.GET.get('uname')
+    if uname:
+        try:
+            crtSalesman = Salesman.objects.get(user_name = uname)
+        except Salesman.DoesNotExist:
+                return HttpResponse('-1')
+    location = request.GET.get('location')
+    count = request.GET.get('count')
+    pname = request.GET.get('pname')
+
+    date = getCurrentDate()
+
+    if location and count and pname:
+        try:
+            count = int(count)
+            merchandise = Merchandise.objects.get(name = pname)
+            sales = Sales()
+            sales.whosales = crtSalesman
+            sales.saleswhat = merchandise
+            sales.year = date[0]
+            sales.month = date[1]
+            sales.day = date[2]
+            sales.location = location
+            sales.count = count
+            sales.save()
+            return HttpResponse('1')
+        except:
+            return HttpResponse('-2')
+    return HttpResponse('-2')
+
         
         
         

@@ -3,9 +3,9 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
-from login.views import index, login
+from login.views import index, login, loginAndroid
 from viewdata.views import viewcurrent, viewhistory, gunviewcurrent, gunviewhistory
-from checkindata.views import checkin, commission
+from checkindata.views import checkin, commission, checkinDataAndroid
 
 urlpatterns = patterns('',
     # index
@@ -22,4 +22,7 @@ urlpatterns = patterns('',
     # admin site auto-create
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    # url for android
+    url(r'^loginAndroid/$',loginAndroid),
+    url(r'^checkinAndroid/$',checkinDataAndroid),
 )

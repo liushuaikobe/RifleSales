@@ -28,18 +28,17 @@
         
         
         <div class="span9">
-        <form class="form-horizontal" action="" method="get">
-        	{% csrf_token %}
+        <form class="form-horizontal" action="" method="get" id="yearForm">
 			<div class="control-group">
 				<label class="control-label" for="year">Year</label>
 				<div class="controls">
 					<select id="year" name="year">
 						{% for year in yearList %}
-							<option {% ifequal forloop.counter 1 %} selected="selected" {% endifequal %} >{{ year }}</option>
+							<option {% ifequal year|stringformat:"s" crtViewYear %} selected="selected" {% endifequal %} >{{ year }}</option>
 						{% endfor %}
 					</select>
 				</div>
-			</div>       
+			</div>
 		</form>
 		
 		<div id="eachMonthSales"></div>
@@ -140,6 +139,12 @@
                 data: [{{ profit|join:"," }}]
             }]
         });
+    });
+    
+    $(function () {
+    	$("#year").change(function(){
+			$("#yearForm").submit();
+    	});
     });
     
       </script>

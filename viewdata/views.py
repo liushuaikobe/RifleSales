@@ -56,13 +56,17 @@ def gunviewcurrent(request):
             'barrels' : getGunViewCurrentMerchandiseCount(date, checkindata.views.BARREL_NAME)}
     return render_to_response('gunviewcurrent.html', meta, RequestContext(request))
 
-def gunviewhistory(request, year = 2013):
+def gunviewhistory(request):
     crtAdmin = getAdministratorFromSession(request)
     if not crtAdmin:
         return HttpResponseRedirect('/')
+    year = request.GET.get('year')
     date = getCurrentDate()
+    if year:
+        date = (year, date[1], date[2])
     meta = {'user_name' : crtAdmin.real_name, \
             'yearList' : getAllYearsList(), \
+            'crtViewYear' : date[0], \
             'locks' : getSalesCountPerMonthOneYearList(date, checkindata.views.LOCK_NAME), \
             'stocks' : getSalesCountPerMonthOneYearList(date, checkindata.views.STOCK_NAME), \
             'barrels' : getSalesCountPerMonthOneYearList(date, checkindata.views.BARREL_NAME), \

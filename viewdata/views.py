@@ -40,7 +40,37 @@ def viewcurrent(request):
     return render_to_response('viewcurrent.html', meta, RequestContext(request))
 
 def viewhistory(request):
-    return render_to_response('viewhistory.html', None, RequestContext(request))
+    crtSalesman = getSalesManFromSession(request)
+    if not crtSalesman:
+        return HttpResponseRedirect('/')
+    year = request.GET.get('year')
+    month = request.GET.get('month')
+    date = getCurrentDate()
+    if year and month:
+        date = (year, month, year[2])
+    lockSalesInCrtMonth = getCurrentMonthSales(crtSalesman, date, checkindata.views.LOCK_NAME)
+    stockSalesInCrtMonth = getCurrentMonthSales(crtSalesman, date, checkindata.views.STOCK_NAME)
+    barrelSalesInCrtMonth = getCurrentMonthSales(crtSalesman, date, checkindata.views.BARREL_NAME)
+    locationsInCrtMonth = getCurrentMonthVisitedLocation(crtSalesman, date)
+    crtMonthSalesList = []
+    for location in locationsInCrtMonth:
+        crtMonthSales = {}
+        crtMonthSales['location'] = location
+        crtMonthSales['locks'] = lockSalesInCrtMonth[location] if location in lockSalesInCrtMonth else 0
+        crtMonthSales['stocks'] = stockSalesInCrtMonth[location] if location in stockSalesInCrtMonth else 0
+        crtMonthSales['barrels'] = barrelSalesInCrtMonth[location] if location in barrelSalesInCrtMonth else 0
+        crtMonthSalesList.append(crtMonthSales)
+    meta = {'yearList' : getAvaliableYearList(crtSalesman), \
+            'monthList' : getAvaliableMonthList(crtSalesman), \
+            'user_name' : crtSalesman.real_name, \
+            'crtViewYear' : date[0], \
+            'crtViewMonth' : date[1], \
+            'crtMonthSalesList' : crtMonthSalesList, \
+            'commissionList' : getEachMonthCommissionListOfOneYear(crtSalesman, date), \
+            'locks' : getEachMonthSalesCountListOfOneYear(crtSalesman, date, checkindata.views.LOCK_NAME), \
+            'stocks' : getEachMonthSalesCountListOfOneYear(crtSalesman, date, checkindata.views.STOCK_NAME), \
+            'barrels' : getEachMonthSalesCountListOfOneYear(crtSalesman, date, checkindata.views.BARREL_NAME)}
+    return render_to_response('viewhistory.html', meta, RequestContext(request))
 
 def gunviewcurrent(request):
     crtAdmin = getAdministratorFromSession(request)
@@ -119,6 +149,37 @@ def getCurrentMonthCommission(crtSalesman, date):
         return commission.value
     except Commission.DoesNotExist:
         return 0
+    
+def getEachMonthCommissionListOfOneYear(crtSalesman, date):
+    data = []
+    monthList = [i + 1 for i in range(12)]
+    for month in monthList:
+        tmpDate = (date[0], month, date[2])
+        data.append(getCurrentMonthCommission(crtSalesman, tmpDate))
+    return data
+
+def getEachMonthSalesCountListOfOneYear(crtSalesman, date, merchandiseName):
+    data = []
+    monthList = [i + 1 for i in range(12)]
+    merchandise = Merchandise.objects.get(name = merchandiseName)
+    for month in monthList:
+        sumCount = Sales.objects.filter(year = date[0], month = month, saleswhat = merchandise.id, whosales = crtSalesman.id).aggregate(sum = Sum('count'))['sum']
+        data.append(sumCount if sumCount else 0)    
+    return data
+
+def getAvaliableYearList(crtSalesman):
+    data = []
+    yearDictList = Commission.objects.filter(whose = crtSalesman.id).values('year').distinct()
+    for yearDict in yearDictList:
+        data.append(yearDict['year'])
+    return data
+
+def getAvaliableMonthList(crtSalesman):
+    data = []
+    monthDictList = Commission.objects.filter(whose = crtSalesman.id).values('month').distinct()
+    for monthDict in monthDictList:
+        data.append(monthDict['month'])
+    return data
     
 def getGunViewCurrentFigureData(date):
     data = []

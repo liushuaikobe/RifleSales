@@ -29,9 +29,154 @@
         
         <div class="span9">
         
-        content
+        <form class="form-inline" method="get" action="">
+			<select id="year" name="year">
+				{% for year in yearList %}
+					<option {% ifequal year|stringformat:"s" crtViewYear %} selected="selected" {% endifequal %} >{{ year }}</option>
+				{% endfor %}
+			</select>
+			<select id="month" name="month">
+				{% for month in monthList %}
+					<option {% ifequal month|stringformat:"s" crtViewMonth %} selected="selected" {% endifequal %} >{{ month }}</option>
+				{% endfor %}
+			</select>
+  			<button type="submit" class="btn btn-info">View</button>
+		</form>
+		<div id="yearCommission"></div>
+		<div id="yearSalesCount"></div>
+		<h3>Sales in {{ crtViewYear }} - {{ crtViewMonth }}</h3>
+        <table class="table table-bordered" id="crtMonthSalesTable">
+        	<tr><th>Location</th><th>Locks</th><th>Stocks</th><th>Barrels</th></tr>
+        	{% for crtMonthSales in crtMonthSalesList %}
+        		<tr>
+        			<td>{{ crtMonthSales.location }}</td>
+        			<td>{{ crtMonthSales.locks }}</td>
+        			<td>{{ crtMonthSales.stocks }}</td>
+        			<td>{{ crtMonthSales.barrels }}</td>
+        		</tr>
+        	{% endfor %}
+        </table>		
+		<div id="monthLocationSalesCount"></div>
         </div><!--/span-->
         
         
       </div><!--/row-->
+      
+      <script type="text/javascript">
+      
+      $(function () {
+        $('#yearCommission').highcharts({
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: 'Monthly Total Commission of {{ crtViewYear }}'
+            },
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+            yAxis: {
+                title: {
+                    text: 'Commission($)'
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: true
+                }
+            },
+            series: [{
+                name: 'Commission',
+                data: [{{ commissionList|join:"," }}]
+            }]
+        });
+    });
+    
+      	$(function () {
+        $('#yearSalesCount').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Monthly Totla Sales of {{ crtViewYear }}'
+            },
+            xAxis: {
+                categories: [
+                    'Jan',
+                    'Feb',
+                    'Mar',
+                    'Apr',
+                    'May',
+                    'Jun',
+                    'Jul',
+                    'Aug',
+                    'Sep',
+                    'Oct',
+                    'Nov',
+                    'Dec'
+                ]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Count'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Locks',
+                data: [{{ locks|join:"," }}]
+    
+            }, {
+                name: 'Stocks',
+                data: [{{ stocks|join:"," }}]
+    
+            }, {
+                name: 'Barrels',
+                data: [{{ barrels|join:"," }}]
+    
+            },]
+        });
+    });
+          	$(function () {
+	    $('#monthLocationSalesCount').highcharts({
+	        data: {
+	            table: document.getElementById('crtMonthSalesTable')
+	        },
+	        chart: {
+	            type: 'column'
+	        },
+	        title: {
+	            text: 'Sales in {{ crtViewYear }} - {{ crtViewMonth }}'
+	        },
+	        yAxis: {
+	            allowDecimals: false,
+	            title: {
+	                text: 'Amount'
+	            }
+	        },
+	        tooltip: {
+	            formatter: function() {
+	                return '<b>'+ this.y + ' ' + this.series.name +'</b><br/>' +' '+ this.x.toLowerCase();
+	            }
+	        }
+	    });
+	});
+      </script>
 {% endblock %}

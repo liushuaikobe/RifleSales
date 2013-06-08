@@ -43,6 +43,7 @@
 		</form>
 		
 		<div id="eachMonthSales"></div>
+		<div id="eachMonthProfit"></div>
 		
         </div><!--/span-->
         
@@ -109,5 +110,37 @@
             },]
         });
     });
+    
+  $(function () {
+        $('#eachMonthProfit').highcharts({
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: 'Monthly Total Profit'
+            },
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+            yAxis: {
+                title: {
+                    text: 'Profit($)'
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: true
+                }
+            },
+            series: [{
+                name: 'Profit',
+                data: [{{ profit|join:"," }}]
+            }]
+        });
+    });
+    
       </script>
 {% endblock %}

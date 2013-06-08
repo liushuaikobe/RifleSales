@@ -65,7 +65,8 @@ def gunviewhistory(request, year = 2013):
             'yearList' : getAllYearsList(), \
             'locks' : getSalesCountPerMonthOneYearList(date, checkindata.views.LOCK_NAME), \
             'stocks' : getSalesCountPerMonthOneYearList(date, checkindata.views.STOCK_NAME), \
-            'barrels' : getSalesCountPerMonthOneYearList(date, checkindata.views.BARREL_NAME)}
+            'barrels' : getSalesCountPerMonthOneYearList(date, checkindata.views.BARREL_NAME), \
+            'profit' : getProfitPerMonthOneYearList(date)}
     return render_to_response('gunviewhistory.html', meta, RequestContext(request))
     
 def getSalesManFromSession(request):
@@ -153,7 +154,7 @@ def getGunViewCurrentMerchandiseCount(date, merchandiseName):
     '''{'count' : 87, 'price' : 50, 'profit' : 50 * 87}'''
     data = {}
     merchandise = Merchandise.objects.get(name = merchandiseName)
-    count = Sales.objects.filter(saleswhat = merchandise.id).aggregate(sum = Sum('count'))['sum']
+    count = Sales.objects.filter(year = date[0], month = date[1], saleswhat = merchandise.id).aggregate(sum = Sum('count'))['sum']
     count = count if count else 0
     data['count'] = count
     data['price'] = merchandise.price
@@ -176,6 +177,20 @@ def getSalesCountPerMonthOneYearList(date, merchandiseName):
         sumCount = Sales.objects.filter(year = date[0], month = month, saleswhat = merchandise.id).aggregate(sum = Sum('count'))['sum']
         data.append(sumCount if sumCount else 0)
     return data
+
+def getProfitPerMonthOneYearList(date):
+    data = []
+    monthList = [i + 1 for i in range(12)]
+    merchandiseList = Merchandise.objects.all()
+    for month in monthList:
+        profit = 0
+        for merchandise in merchandiseList:
+            count = Sales.objects.filter(year = date[0], month = month, saleswhat = merchandise.id).aggregate(sum = Sum('count'))['sum']
+            count = count if count else 0
+            profit += count * merchandise.price
+        data.append(profit)
+    return data
+    
     
     
         

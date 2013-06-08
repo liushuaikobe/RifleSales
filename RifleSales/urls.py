@@ -5,7 +5,7 @@ admin.autodiscover()
 
 from login.views import index, login
 from viewdata.views import viewcurrent, viewhistory, gunviewcurrent, gunviewhistory
-from checkindata.views import checkin
+from checkindata.views import checkin, commission
 
 urlpatterns = patterns('',
     # index
@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^login/$', login),
     # login as a salesman
     url(r'^checkin/$', checkin),
+    url(r'^checkin/commission/$', commission),
     url(r'^viewcurrent/$', viewcurrent),
     url(r'^viewhistory/$', viewhistory),
     # login as a administrator

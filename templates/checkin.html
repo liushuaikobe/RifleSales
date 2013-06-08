@@ -27,6 +27,11 @@
         </div><!--/span-->
         <div class="span9">
           <div class="hero-unit">
+          	{% ifequal haveFinished|stringformat:"s" 'True' %}
+          		<div class="alert">
+          			You have sent commission request this month.
+          		</div>
+          	{% endifequal %}
           	{% if year and month and day %}
           	<h4>{{ year }}-{{ month }}-{{ day }}</h4>
           	{% endif %}
@@ -73,20 +78,20 @@
 				<div class="control-group">
 					<div class="controls">
 						<button type="reset" class="btn">Reset</button>
-						<button type="submit" class="btn btn-success" id="post">Post &raquo;</button>
+						<button type="submit" class="btn btn-success" id="post" {% ifequal haveFinished|stringformat:"s" 'True' %}disabled{% endifequal %}>Post &raquo;</button>
 					</div>
 				</div>
           	</form>
           	
           	<!-- Commission -->
-          	<form class="form-horizontal" action="" method="post">
+          	<form class="form-horizontal" action="commission/" method="post">
           		{% csrf_token %}
           		<div><h4>Danger Zone:</h4></div>
           		<input type='hidden' name='commission' value='true' />
           		<div class="control-group">
 						<label class="control-label" for="commission">&nbsp;</label>
 						<div class="controls">
-          					<button type="submit" class="btn btn-warning" id="commission">Commission &raquo;</button>
+          					<button type="submit" class="btn btn-warning" id="commission" {% ifequal haveFinished|stringformat:"s" 'True' %}disabled{% endifequal %}>Commission &raquo;</button>
 						</div>
 				</div>
           	</form>

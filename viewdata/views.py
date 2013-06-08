@@ -6,7 +6,7 @@ from django.db.models import Sum
 from login.models import Salesman, Administrator
 from checkindata.models import Sales, Merchandise
 from viewdata.models import Commission
-from checkindata.views import getCurrentDate, calcCommission
+from checkindata.views import getCurrentDate, calcCommission, haveFinished
 
 import checkindata.views
 
@@ -18,7 +18,7 @@ def viewcurrent(request):
         return HttpResponseRedirect('/')
     date = getCurrentDate()
     # calculate the commission first
-    calcCommission(crtSalesman, date, False)
+    calcCommission(crtSalesman, date, haveFinished(crtSalesman, date))
     # get the commission of current month until now
     commissionVal = getCurrentMonthCommission(crtSalesman, date)
     # create a sales list of current month

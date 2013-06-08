@@ -26,7 +26,12 @@ def checkin(request):
             crtSalesman = Salesman.objects.get(user_name = crtSalesmanUserName, real_name = crtSalesmanRealName)
             allMerchandise = Merchandise.objects.all()
             date = getCurrentDate()
-            meta = {'user_name':crtSalesmanRealName, 'year':date[0], 'month':date[1], 'day':date[2], 'allMerchandise':allMerchandise}
+            meta = {'user_name':crtSalesmanRealName, \
+                    'year':date[0], \
+                    'month':date[1], \
+                    'day':date[2], \
+                    'allMerchandise':allMerchandise, \
+                    'haveFinished' : haveFinished(crtSalesman, date)}
             print getOnesBalance(crtSalesman, date)
             if request.method == 'POST':
                 errorMsg = handleCheckinData(request, crtSalesman, date)
@@ -125,10 +130,20 @@ def calcCommission(crtSalesman, date, isFinal):
     commission.havefinished = isFinal
     commission.save()
     
-        
-        
-        
-        
+def commission(request):
+    if request.method != 'POST':
+        return HttpResponseRedirect('/')
+    crtSalesman = getSalesManFromSession(request)
+    if not crtSalesman:
+        return HttpResponseRedirect('/')
+    isCommission = request.POST.get('commission')
+    if isCommission:
+        date = getCurrentDate()
+        commssion = Commission.objects.filter(whose = crtSalesman.id, year = date[0], month = date[1]).update(havefinished = True)
+    return HttpResponseRedirect('/checkin/')
+
+def haveFinished(crtSalesman, date):
+    return Commission.objects.get(whose = crtSalesman.id, year = date[0], month = date[1]).havefinished
         
         
         

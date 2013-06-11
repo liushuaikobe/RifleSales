@@ -70,6 +70,19 @@ def viewhistory(request):
             'barrels' : getEachMonthSalesCountListOfOneYear(crtSalesman, date, checkindata.views.BARREL_NAME)}
     return render_to_response('viewhistory.html', meta, RequestContext(request))
 
+def gunaddsalesman(request):
+    crtAdmin = getAdministratorFromSession(request)
+    if not crtAdmin:
+        return HttpResponseRedirect('/')
+    meta = {'user_name' : crtAdmin.real_name}
+    if request.method == 'POST':
+        errorMsg = handleAddSalesman(request)
+        if errorMsg:
+            meta['errorMsg'] = errorMsg
+        else:
+            meta['success'] = 'Add successfully.'
+    return render_to_response('gunaddsalesman.html', meta, RequestContext(request))
+
 def gunviewcurrent(request):
     crtAdmin = getAdministratorFromSession(request)
     if not crtAdmin:
@@ -100,6 +113,32 @@ def gunviewhistory(request):
             'barrels' : getSalesCountPerMonthOneYearList(date, checkindata.views.BARREL_NAME), \
             'profit' : getProfitPerMonthOneYearList(date)}
     return render_to_response('gunviewhistory.html', meta, RequestContext(request))
+    
+def handleAddSalesman(request):
+    error = ''
+    userName = request.POST.get('username')
+    realName = request.POST.get('realname') 
+    passWord = request.POST.get('password')
+    if userName and realName and passWord:
+        try:
+            userName = str(userName)
+            realName = str(realName)
+            passWord = str(passWord)
+            salesman = Salesman()
+            salesman.user_name = userName
+            salesman.real_name = realName
+            salesman.pass_word = passWord
+            salesman.save()
+        except ValueError:
+            error = 'Please check your data (should be a legal String).'
+            return error
+        except:
+            error = 'Add error.Please try later.'
+            return error
+    else:
+        error = 'Please fill in all data.'
+    return error
+    
     
 def getSalesManFromSession(request):
     '''get a salesman entity from the session of current request.'''

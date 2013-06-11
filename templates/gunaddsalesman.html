@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+            
+              <li class="nav-header">Operation</li>
+              
+              <li class="active"><a href="#">Add Saleman</a></li>
+              <li><a href="#">More</a></li>
+              
+              <li class="nav-header">view data</li>
+              
+              <li><a href="/gunviewcurrent/">View Current Month</a></li>
+              <li><a href="/gunviewhistory/">View History</a></li>
+              
+              <!-- 
+              <li class="nav-header">Sidebar</li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+               -->
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        
+        
+        <div class="span9">
+        	<div class="hero-unit">
+        		<h4>Add a New Salesman</h4>
+        		<form class="form-horizontal" action="" method="post">
+        			{% if errorMsg %}
+        				<div class="alert alert-error">
+        					<button type="button" class="close" data-dismiss="alert">&times;</button>
+        					{{ errorMsg }}
+        				</div>
+        			{% endif %}
+        			{% if success %}
+        				<div class="alert alert-success">
+        					<button type="button" class="close" data-dismiss="alert">&times;</button>
+        					{{ success }}
+        				</div>
+        			{% endif %}
+        			{% csrf_token %}
+        			<div class="control-group">
+						<label class="control-label" for="username">UserName</label>
+						<div class="controls">
+							<input type="text" id="username" name="username">
+						</div>
+					</div>
+        			<div class="control-group">
+						<label class="control-label" for="realname">RealName</label>
+						<div class="controls">
+							<input type="text" id="realname" name="realname">
+						</div>
+					</div>
+        			<div class="control-group">
+						<label class="control-label" for="password">PassWord</label>
+						<div class="controls">
+							<input type="password" id="password" name="password">
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="controls">
+							<button type="reset" class="btn">Reset</button>
+							<button type="submit" class="btn btn-success" id="post">Add &raquo;</button>
+						</div>
+					</div>
+        		</form>
+        	</div>
+        </div><!--/span-->
+        
+        
+      </div><!--/row-->
+      
+{% endblock %}

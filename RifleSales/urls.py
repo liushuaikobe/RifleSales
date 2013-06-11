@@ -4,7 +4,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 from login.views import index, login, loginAndroid
-from viewdata.views import viewcurrent, viewhistory, gunviewcurrent, gunviewhistory
+from viewdata.views import viewcurrent, viewhistory, gunviewcurrent, gunviewhistory, gunaddsalesman
 from checkindata.views import checkin, commission, checkinDataAndroid
 
 urlpatterns = patterns('',
@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     # login as a administrator
     url(r'^gunviewcurrent/$', gunviewcurrent),
     url(r'^gunviewhistory/$', gunviewhistory),
+    url(r'^gunaddsalesman/$', gunaddsalesman),
     # admin site auto-create
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),

@@ -177,7 +177,16 @@ def checkinDataAndroid(request):
             return HttpResponse('-2')
     return HttpResponse('-2')
 
-        
-        
-        
-        
+def commissionAndroid(request):
+    uname = request.GET.get('uname')
+    if uname:
+        try:
+            crtSalesman = Salesman.objects.get(user_name = uname)
+        except Salesman.DoesNotExist:
+                return HttpResponse('-1')
+    isCommission = request.GET.get('commission')
+    if isCommission:
+        date = getCurrentDate()
+        commssion = Commission.objects.filter(whose = crtSalesman.id, year = date[0], month = date[1]).update(havefinished = True)
+        return HttpResponse('1')
+    return HttpResponse('-1')

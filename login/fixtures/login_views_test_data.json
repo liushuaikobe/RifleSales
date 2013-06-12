@@ -1,0 +1,56 @@
+[
+    {
+        "pk": 1, 
+        "model": "login.salesman", 
+        "fields": {
+            "pass_word": "zlp", 
+            "user_name": "zouliping", 
+            "real_name": "zouliping007"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "login.salesman", 
+        "fields": {
+            "pass_word": "zy", 
+            "user_name": "zhangyu", 
+            "real_name": "zhangyuxiong"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "login.salesman", 
+        "fields": {
+            "pass_word": "zyn", 
+            "user_name": "zhayanan", 
+            "real_name": "nanjie"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "login.salesman", 
+        "fields": {
+            "pass_word": "zzh", 
+            "user_name": "zhangzhiheng", 
+            "real_name": "zhihengge"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "login.salesman", 
+        "fields": {
+            "pass_word": "gxr", 
+            "user_name": "guoxinrong", 
+            "real_name": "guoge"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "login.administrator", 
+        "fields": {
+            "pass_word": "ls", 
+            "user_name": "liushuai", 
+            "real_name": "liushuaikobe"
+        }
+    }
+]

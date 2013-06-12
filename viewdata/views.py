@@ -141,7 +141,9 @@ def handleAddSalesman(request):
     
     
 def getSalesManFromSession(request):
-    '''get a salesman entity from the session of current request.'''
+    '''
+    get a salesman entity from the session of current request.
+    '''
     crtSalesmanUserName = request.session['user_name'] if 'user_name' in request.session else None
     crtSalesmanRealName = request.session['real_name'] if 'real_name' in request.session else None
     if crtSalesmanUserName and crtSalesmanRealName:
@@ -152,7 +154,9 @@ def getSalesManFromSession(request):
     return None
 
 def getAdministratorFromSession(request):
-    '''get a salesman entity from the session of current request.'''
+    '''
+    get a salesman entity from the session of current request.
+    '''
     crtAdminUserName = request.session['user_name'] if 'user_name' in request.session else None
     crtAdminRealName = request.session['real_name'] if 'real_name' in request.session else None
     if crtAdminUserName and crtAdminRealName:
@@ -163,7 +167,9 @@ def getAdministratorFromSession(request):
     return None
 
 def getCurrentMonthSales(crtSalesman, date, merchandiseName):
-    '''get the sales of given crtSalesman in a given month'''
+    '''
+    get the sales of given crtSalesman in a given month
+    '''
     merchandise = Merchandise.objects.get(name = merchandiseName)
     sales = Sales.objects.filter(whosales = crtSalesman.id, saleswhat = merchandise.id, year = date[0], month = date[1]).values('location').annotate(sum = Sum('count'))
     salesLocationAndSum = {}
@@ -172,7 +178,9 @@ def getCurrentMonthSales(crtSalesman, date, merchandiseName):
     return salesLocationAndSum
 
 def getCurrentMonthVisitedLocation(crtSalesman, date):
-    '''get all locations crtSalesman has visited in give date'''
+    '''
+    get all locations crtSalesman has visited in give date
+    '''
     locations = []
     locationDict = Sales.objects.filter(whosales = crtSalesman.id, year = date[0], month = date[1]).values('location').distinct()
     for location in locationDict:
@@ -180,7 +188,9 @@ def getCurrentMonthVisitedLocation(crtSalesman, date):
     return locations
 
 def getCurrentMonthCommission(crtSalesman, date):
-    '''get the commission of given salesman in given date'''
+    '''
+    get the commission of given salesman in given date
+    '''
     try:
         commission = Commission.objects.get(whose = crtSalesman.id, year = date[0], month = date[1])
         return commission.value
@@ -253,7 +263,9 @@ def getGunViewCurrentFigureData(date):
     return data
 
 def getGunViewCurrentMerchandiseCount(date, merchandiseName):
-    '''{'count' : 87, 'price' : 50, 'profit' : 50 * 87}'''
+    '''
+    {'count' : 87, 'price' : 50, 'profit' : 50 * 87}
+    '''
     data = {}
     merchandise = Merchandise.objects.get(name = merchandiseName)
     count = Sales.objects.filter(year = date[0], month = date[1], saleswhat = merchandise.id).aggregate(sum = Sum('count'))['sum']
@@ -264,7 +276,9 @@ def getGunViewCurrentMerchandiseCount(date, merchandiseName):
     return data    
 
 def getAllYearsList():
-    '''return all years via a list'''
+    '''
+    return all years via a list
+    '''
     data = []
     yearDict = Sales.objects.all().values('year').distinct()
     for year in yearDict:

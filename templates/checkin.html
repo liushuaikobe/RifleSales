@@ -32,9 +32,7 @@
           			You have sent commission request this month.
           		</div>
           	{% endifequal %}
-          	{% if year and month and day %}
-          	<h4>{{ year }}-{{ month }}-{{ day }}</h4>
-          	{% endif %}
+          	<h4>{% now "Y-m-d" %}</h4>
           	<form class="form-horizontal" action="" method="post">
           		{% if errorMsg %}
           			<div class="alert alert-error">
@@ -101,15 +99,15 @@
             <div class="span4">
               <h2>locks <span class="label label-success" size=19>{{ lock }}</span></h2>
               <p></p>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+              <p>Lock is the part that hits the primer or firing pin or explodes the percussion cap and causes the gun to fire.Withhold the lock, the resistance iron releases through mechanical transmission, so that the firing pin or hammer firing gunpowder.</p>
             </div><!--/span-->
             <div class="span4">
               <h2>stocks <span class="label label-success">{{ stock }}</span></h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+              <p>Stock is a component of the general rifle whose benefits cannot be overestimated. When shooting, the stock can slow or counterack the impact force of poping the bullet in the barrel and keep the balance when the gunman are shooting. With stocks, the shooting accuracy improved greatly compared with conventional rifles.</p>
             </div><!--/span-->
             <div class="span4">
               <h2>barrels <span class="label label-success">{{ barrel }}</span></h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+              <p>Barrel is one of the main component parts of firearms and usually made of heat-resisting, uneasily-deformed metal tube. When the bullets are poped at the time, the expanding gas due to the gunpowder explosion or other power will push warhead through the barrel and finally become high-speed projectiles fired.</p>
             </div><!--/span-->
           </div><!--/row-->
         </div><!--/span-->

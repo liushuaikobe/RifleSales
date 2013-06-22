@@ -7,7 +7,7 @@ from login.models import Salesman
 from viewdata.models import Commission
 from checkindata.models import Merchandise, Sales
 
-import time
+import time, viewdata.views
 
 MAX_LOCKS = 70
 MAX_STOCKS = 80
@@ -62,6 +62,13 @@ def handleCheckinData(request, crtSalesman, date):
         try:
             quantity = int(quantity)
             merchandise = Merchandise.objects.get(name = merchandise)
+            
+            balance = getOnesBalance(crtSalesman, date)
+            if merchandise.name in balance:
+                if quantity > balance[merchandise.name]:
+                    error = 'Your %s have only %s left, but you want to sale %s.' % (merchandise.name, str(balance[merchandise.name]), str(quantity))
+                    return error
+            
             sales = Sales()
             sales.whosales = crtSalesman
             sales.saleswhat = merchandise
@@ -134,14 +141,14 @@ def calcCommission(crtSalesman, date, isFinal):
 def commission(request):
     if request.method != 'POST':
         return HttpResponseRedirect('/')
-    crtSalesman = getSalesManFromSession(request)
+    crtSalesman = viewdata.views.getSalesManFromSession(request)
     if not crtSalesman:
         return HttpResponseRedirect('/')
     isCommission = request.POST.get('commission')
     if isCommission:
         date = getCurrentDate()
         commssion = Commission.objects.filter(whose = crtSalesman.id, year = date[0], month = date[1]).update(havefinished = True)
-    return HttpResponseRedirect('/checkin/')
+    return HttpResponseRedirect('/viewcurrent/')
 
 def haveFinished(crtSalesman, date):
     return Commission.objects.get(whose = crtSalesman.id, year = date[0], month = date[1]).havefinished

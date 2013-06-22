@@ -1,0 +1,396 @@
+[
+    {
+        "pk": 1, 
+        "model": "checkindata.merchandise", 
+        "fields": {
+            "price": 45.0, 
+            "name": "lock", 
+            "image_path": "", 
+            "description": "Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursu"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "checkindata.merchandise", 
+        "fields": {
+            "price": 30.0, 
+            "name": "stock", 
+            "image_path": "", 
+            "description": "Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursu"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "checkindata.merchandise", 
+        "fields": {
+            "price": 25.0, 
+            "name": "barrel", 
+            "image_path": "", 
+            "description": "Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursu"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 4, 
+            "saleswhat": 3, 
+            "month": 6, 
+            "location": "harbin", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 4
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 6, 
+            "saleswhat": 2, 
+            "month": 6, 
+            "location": "Chifeng", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 4
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 4, 
+            "saleswhat": 1, 
+            "month": 6, 
+            "location": "Fujian", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 4
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 5, 
+            "saleswhat": 2, 
+            "month": 6, 
+            "location": "Anhui", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 4
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 5, 
+            "saleswhat": 1, 
+            "month": 6, 
+            "location": "Chifeng", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 4
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 3, 
+            "saleswhat": 1, 
+            "month": 6, 
+            "location": "ZheJiang", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 5
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 10, 
+            "saleswhat": 1, 
+            "month": 6, 
+            "location": "Chifeng", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 5
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 6, 
+            "saleswhat": 2, 
+            "month": 6, 
+            "location": "Chifeng", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 5
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 5, 
+            "saleswhat": 3, 
+            "month": 6, 
+            "location": "Chifeng", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 5
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 4, 
+            "saleswhat": 3, 
+            "month": 6, 
+            "location": "Chifeng", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 5
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 4, 
+            "saleswhat": 3, 
+            "month": 6, 
+            "location": "harbin", 
+            "year": 2013, 
+            "whosales": 2, 
+            "day": 6
+        }
+    }, 
+    {
+        "pk": 12, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 4, 
+            "saleswhat": 2, 
+            "month": 6, 
+            "location": "harbin", 
+            "year": 2013, 
+            "whosales": 2, 
+            "day": 6
+        }
+    }, 
+    {
+        "pk": 13, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 5, 
+            "saleswhat": 3, 
+            "month": 6, 
+            "location": "harbin", 
+            "year": 2013, 
+            "whosales": 2, 
+            "day": 6
+        }
+    }, 
+    {
+        "pk": 14, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 2, 
+            "saleswhat": 1, 
+            "month": 6, 
+            "location": "harbin", 
+            "year": 2013, 
+            "whosales": 2, 
+            "day": 6
+        }
+    }, 
+    {
+        "pk": 15, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 4, 
+            "saleswhat": 1, 
+            "month": 2, 
+            "location": "najing", 
+            "year": 2012, 
+            "whosales": 2, 
+            "day": 24
+        }
+    }, 
+    {
+        "pk": 16, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 3, 
+            "saleswhat": 2, 
+            "month": 4, 
+            "location": "bejing", 
+            "year": 2012, 
+            "whosales": 1, 
+            "day": 5
+        }
+    }, 
+    {
+        "pk": 17, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 5, 
+            "saleswhat": 3, 
+            "month": 12, 
+            "location": "bejing", 
+            "year": 2011, 
+            "whosales": 2, 
+            "day": 4
+        }
+    }, 
+    {
+        "pk": 18, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 15, 
+            "saleswhat": 2, 
+            "month": 11, 
+            "location": "Chifeng", 
+            "year": 2011, 
+            "whosales": 1, 
+            "day": 6
+        }
+    }, 
+    {
+        "pk": 19, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 4, 
+            "saleswhat": 1, 
+            "month": 6, 
+            "location": "Beijing", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 8
+        }
+    }, 
+    {
+        "pk": 20, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 7, 
+            "saleswhat": 1, 
+            "month": 6, 
+            "location": "harbin", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 8
+        }
+    }, 
+    {
+        "pk": 21, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 4, 
+            "saleswhat": 2, 
+            "month": 6, 
+            "location": "harbin", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 8
+        }
+    }, 
+    {
+        "pk": 22, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 4, 
+            "saleswhat": 2, 
+            "month": 6, 
+            "location": "harbin", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 8
+        }
+    }, 
+    {
+        "pk": 23, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 8, 
+            "saleswhat": 2, 
+            "month": 6, 
+            "location": "harbin", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 8
+        }
+    }, 
+    {
+        "pk": 24, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 6, 
+            "saleswhat": 3, 
+            "month": 6, 
+            "location": "harbin", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 8
+        }
+    }, 
+    {
+        "pk": 25, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 4, 
+            "saleswhat": 1, 
+            "month": 6, 
+            "location": "harbin", 
+            "year": 2013, 
+            "whosales": 3, 
+            "day": 8
+        }
+    }, 
+    {
+        "pk": 26, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 5, 
+            "saleswhat": 1, 
+            "month": 6, 
+            "location": "harbin", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 8
+        }
+    }, 
+    {
+        "pk": 27, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 4, 
+            "saleswhat": 2, 
+            "month": 6, 
+            "location": "harbin", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 8
+        }
+    }, 
+    {
+        "pk": 28, 
+        "model": "checkindata.sales", 
+        "fields": {
+            "count": 5, 
+            "saleswhat": 2, 
+            "month": 6, 
+            "location": "harbin", 
+            "year": 2013, 
+            "whosales": 1, 
+            "day": 8
+        }
+    }
+]

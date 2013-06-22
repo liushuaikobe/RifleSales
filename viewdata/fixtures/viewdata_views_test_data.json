@@ -1,0 +1,35 @@
+[
+    {
+        "pk": 1, 
+        "model": "viewdata.commission", 
+        "fields": {
+            "whose": 1, 
+            "month": 6, 
+            "havefinished": true, 
+            "value": 211.0, 
+            "year": 2013
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "viewdata.commission", 
+        "fields": {
+            "whose": 2, 
+            "month": 6, 
+            "havefinished": false, 
+            "value": 43.5, 
+            "year": 2013
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "viewdata.commission", 
+        "fields": {
+            "whose": 1, 
+            "month": 5, 
+            "havefinished": false, 
+            "value": 298.5, 
+            "year": 2013
+        }
+    }
+]
